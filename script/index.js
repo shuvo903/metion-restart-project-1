@@ -2,7 +2,11 @@ const createElement = (arr) => {
   const htmlElements = arr.map((el) => `<span class = "btn">${el}</span>`);
   return htmlElements.join(" ");
 };
-
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
 const menageSpinner = (status) => {
   if (status == true) {
     document.getElementById("spinner").classList.remove("hidden");
@@ -90,21 +94,6 @@ const displayLevelWords = (words) => {
   }
 
   words.forEach((word) => {
-    // id
-    // :
-    // 83
-    // level
-    // :
-    // 1
-    // meaning
-    // :
-    // "দরজা"
-    // pronunciation
-    // :
-    // "ডোর"
-    // word
-    // :
-    // "Door"
 
     const card = document.createElement("div");
     card.innerHTML = `
@@ -116,7 +105,7 @@ const displayLevelWords = (words) => {
             </>
             <div class=" flex justify-between items-center">
                 <button onclick="loadWordDetail(${word.id})" class="btn bg-[#1A91FF10] hover:bg-[#1A91FF30]"><i class="fa-solid fa-circle-info"></i></button>
-                <button class="btn bg-[#1A91FF15] hover:bg-[#1A91FF30]"><i class="fa-solid fa-volume-high"></i></button>
+                <button onclick = "pronounceWord('${word.word}')" class="btn bg-[#1A91FF15] hover:bg-[#1A91FF30]"><i class="fa-solid fa-volume-high"></i></button>
             </div>
             </div>
         </div>
