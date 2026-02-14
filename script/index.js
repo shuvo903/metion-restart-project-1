@@ -50,34 +50,6 @@ const loadWordDetail = async (id) => {
   displayWordDetail(details.data);
 };
 
-// id
-// :
-// 72
-// level
-// :
-// 1
-// meaning
-// :
-// "বড়"
-// partsOfSpeech
-// :
-// "adjective"
-// points
-// :
-// 1
-// pronunciation
-// :
-// "বিগ"
-// sentence
-// :
-// "He has a big house."
-// synonyms
-// :
-// (3) ['large', 'huge', 'giant']
-// word
-// :
-// "Big"
-
 const displayWordDetail = (word) => {
   console.log(word);
   const detailsBox = document.getElementById("details-container");
@@ -113,7 +85,7 @@ const displayLevelWords = (words) => {
     <h2 class="font-bold text-4xl">নেক্সট Lesson এ যান</h2>
 </div>
 `;
-  menageSpinner(false);
+    menageSpinner(false);
     return;
   }
 
@@ -170,3 +142,21 @@ const displayLesson = (lessons) => {
   }
 };
 loadLessons();
+
+document.getElementById("btn-Search").addEventListener("click", () => {
+  removeActive();
+  const input = document.getElementById("input-search");
+  const searchValue = input.value.trim().toLowerCase();
+  // console.log(searchValue);
+
+  fetch("https://openapi.programming-hero.com/api/words/all")
+    .then((res) => res.json())
+    .then((data) => {
+      const allWords = data.data;
+      // console.log(allWords);
+      const filterWords = allWords.filter((word) =>
+        word.word.toLowerCase().includes(searchValue),
+      );
+      displayLevelWords(filterWords);
+    });
+});
